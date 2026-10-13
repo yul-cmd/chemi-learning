@@ -240,6 +240,7 @@
   .rules-err { color: var(--fire); font-size: 13px; }
   #rules .missing { border-color: var(--fire) !important; background: rgba(210,73,60,.06); }
   #rules-preview { margin: 0; }
+  .gr-intro { font-size: 14px; line-height: 1.75; margin-top: 10px; padding: 12px 14px; border-radius: 10px; background: var(--accent-soft); word-break: keep-all; }
   .rules-done { display: grid; gap: 4px; font-size: 14px; line-height: 1.7; word-break: keep-all; }
   .role input.active { border-color: var(--accent); background: var(--accent-soft); }
   #role-chips .chip-btn:disabled { opacity: .4; cursor: default; }
@@ -474,9 +475,10 @@
 
     <div class="card rules" id="rules">
       <div>
-        <span class="eyebrow">Team Rules</span>
-        <h2>우리 팀 규칙 정하기</h2>
-        <p class="note" style="margin-top:6px">궁합 결과를 보면서 함께 채워요. 추천 문구를 누르면 바로 들어가요. 모든 항목(<b style="color:var(--accent)">★</b>)을 채워야 팀 규칙을 복사할 수 있어요.</p>
+        <span class="eyebrow">Ground Rules</span>
+        <h2>우리 팀 그라운드 룰 세팅하기</h2>
+        <p class="gr-intro">그라운드 룰(Ground Rule)은 팀이 함께 일할 때 서로 오해 없이, 더 즐겁고 효율적으로 협업하기 위해 다 같이 정하는 기본 약속이에요. 우리 팀에 맞는 그라운드 룰을 함께 만들어 보고, 프로젝트 기간 동안 지켜 나가 봐요! 😊</p>
+        <p class="note" style="margin-top:8px">궁합 결과를 보면서 함께 채워요. 추천 문구를 누르면 바로 들어가요. 모든 항목(<b style="color:var(--accent)">★</b>)을 채워야 그라운드 룰을 복사할 수 있어요.</p>
       </div>
       <div class="rrow">
         <div class="rfield"><label for="r-team">팀 번호<em>★</em></label><input id="r-team" data-r="team" placeholder="예) 3"></div>
@@ -565,15 +567,15 @@
         <div class="chips" id="extra-chips" data-for="r-extra"></div>
       </div>
       <div>
-        <p class="sec-label">팀 채널에 올릴 규칙</p>
+        <p class="sec-label">팀 채널에 올릴 그라운드 룰</p>
         <pre class="share" id="rules-preview" style="white-space:pre-wrap;word-break:keep-all;font-family:var(--font-mono);font-size:12px;line-height:1.7;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:0"></pre>
       </div>
       <p class="rules-err" id="rules-err" hidden></p>
-      <button class="btn" id="btn-rules-copy">팀 규칙 복사하기</button>
+      <button class="btn" id="btn-rules-copy">우리 팀 그라운드 룰 복사하기</button>
       <div class="boxed manual rules-done">
-        <p>🎉 <b>우리 팀만의 규칙이 완성되었습니다.</b></p>
+        <p>🎉 <b>우리 팀만의 그라운드 룰이 완성되었습니다.</b></p>
         <p>이제 팀장이 디스코드 팀 채널에 <b>고정 메시지</b>로 설정해 주세요! 📌</p>
-        <p>팀원들과 논의 후 팀 규칙은 언제든지 수정할 수 있어요. 정해진 팀 규칙은 최대한 지켜주세요!</p>
+        <p>팀원들과 논의 후 그라운드 룰은 언제든지 수정할 수 있어요. 정해진 그라운드 룰은 최대한 지켜주세요!</p>
         <p>스프린터 여러분의 프로젝트를 응원합니다! 💜</p>
       </div>
     </div>
@@ -744,7 +746,7 @@ const synergyOf = i => [0, 1, 2, 3, 4].filter(j => j !== i && PAIRS[pairKey(i, j
 
 const TEAM_MISSING = [
   '💡 제너레이터가 없어요. 브레인스토밍 시간을 따로 잡아 새로운 시도를 해보세요.',
-  '⚡ 부스터가 없어요. 매일 아침 한 줄 인사를 팀 규칙으로 정해보세요.',
+  '⚡ 부스터가 없어요. 매일 아침 한 줄 인사를 그라운드 룰로 정해보세요.',
   '🫧 레귤러가 없어요. 회의 끝에 “다들 괜찮아요?” 한마디를 꼭 챙겨주세요.',
   '✅ 밸리데이터가 없어요. 일정표와 역할 분담표를 첫 주에 만들어두세요.',
   '🔍 딥러너가 없어요. 중요한 결정은 하루 생각할 시간을 두고 내려보세요.'
@@ -1088,7 +1090,7 @@ function renderTeam() {
   html += `</div>`;
 
   html += `<div class="save-row"><button class="btn ghost" id="btn-save-team">팀 궁합 결과 이미지로 저장</button></div>`;
-  html += `<div class="boxed manual"><p class="sec-label">이제 팀끼리 이야기해봐요</p><p>1. 서로의 ‘나와 일할 때 이렇게 해주세요’를 돌아가며 읽기<br>2. 대화 카드와 튜닝 팁을 보며 이야기 나누기<br>3. 아래 ‘우리 팀 규칙 정하기’를 함께 채우고 팀 채널에 올리기</p></div>`;
+  html += `<div class="boxed manual"><p class="sec-label">이제 팀끼리 이야기해봐요</p><p>1. 서로의 ‘나와 일할 때 이렇게 해주세요’를 돌아가며 읽기<br>2. 대화 카드와 튜닝 팁을 보며 이야기 나누기<br>3. 아래 ‘우리 팀 그라운드 룰 세팅하기’를 함께 채우고 팀 채널에 올리기</p></div>`;
   out.innerHTML = html;
   $('btn-save-team').onclick = e => saveImage($('team-capture'), `케미러닝_파트${$('load-part').value || who.part}_${rules.team || $('load-team').value || '우리'}팀_궁합.png`, e.currentTarget);
 
@@ -1144,7 +1146,7 @@ function updateRoleHint() {
 
 function rulesText() {
   const pt = $('load-part').value || who.part;
-  const head = `[${pt ? '파트' + pt + ' ' : ''}${rules.team || 'N'}팀] 팀 규칙` +
+  const head = `[${pt ? '파트' + pt + ' ' : ''}${rules.team || 'N'}팀] 우리 팀 그라운드 룰` +
     (rules.name.trim() ? `\n💞 우리 팀 궁합 : ${rules.name.trim()}` + (teamCtx ? ` (${teamCtx.score}점 · ${teamCtx.grade})` : '') : '');
   const v = x => x.trim() || '-';
   const roleLines = members.map((m, i) => `  - ${m.name.trim() || `팀원 ${i + 1}`} : ${(roles[i] || '').trim() || '-'}`).join('\n');
@@ -1216,7 +1218,7 @@ $('btn-rules-copy').onclick = () => {
     if (first) { first.scrollIntoView({ behavior: 'smooth', block: 'center' }); first.focus({ preventScroll: true }); }
     return;
   }
-  copyText(rulesText(), $('btn-rules-copy'), '팀 규칙 복사하기', $('rules-preview'));
+  copyText(rulesText(), $('btn-rules-copy'), '우리 팀 그라운드 룰 복사하기', $('rules-preview'));
 };
 
 /* 팀원 결과 불러오기 */
