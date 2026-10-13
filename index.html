@@ -363,7 +363,7 @@
         <button class="btn" id="btn-start">내 케미 캐릭터 찾기</button>
         <button class="btn ghost" id="btn-team-open">바로 팀 궁합 보기</button>
       </div>
-      <p class="notice">· 테스트는 <b>파트마다 1번씩</b> 응답해요. 같은 파트에 이미 응답했다면 저장된 결과를 다시 보여드려요.<br>· 결과(이름, 캐릭터)는 팀 활동을 위해 저장되고, 같은 팀원이 함께 볼 수 있어요.<br>· 같은 기수에 이름이 같은 분이 있다면 이름 뒤에 A, B를 붙여주세요.</p>
+      <p class="notice">· 테스트는 <b>파트별로 한 번만</b> 참여할 수 있어요.<br>· 이미 응답한 파트를 다시 열면 이전 결과를 보여드려요.<br>· 재테스트는 원칙적으로 어렵지만, 잘못 응답한 경우에는 <b>허율 담당자</b>에게 문의해 주세요!<br>· 결과(이름, 캐릭터)는 팀 활동을 위해 저장되고, 같은 팀원이 함께 볼 수 있어요.<br>· 같은 기수에 이름이 같은 분이 있다면 이름 뒤에 A, B를 붙여주세요.</p>
     </div>
   </section>
 
@@ -934,7 +934,7 @@ ${e.manual.map(x => '- ' + x).join('\n')}
 - ${e.careful}`;
 
   const st = $('sub-status');
-  if (isExisting) { st.hidden = false; st.textContent = `파트${who.part} 테스트는 이미 응답했어요. 다시 하고 싶다면 매니저에게 요청해 주세요.`; }
+  if (isExisting) { st.hidden = false; st.textContent = `파트${who.part} 테스트는 이미 응답했어요. 잘못 응답한 경우에는 허율 담당자에게 문의해 주세요!`; }
   else st.hidden = true;
   show('sc-result');
 }
