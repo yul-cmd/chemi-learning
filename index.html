@@ -1036,8 +1036,8 @@ function renderMembers() {
     `<select id="m-el-${i}" class="sel-e" data-f="el" aria-label="팀원 ${i + 1} 캐릭터">${opt(EL, m.el, e => `${e.ch} ${e.short}`)}</select>` +
     `<button class="del" data-del="${i}" aria-label="팀원 ${i + 1} 삭제">×</button>` +
     `</div>`).join('');
-  $('member-count').textContent = `${members.length}명 / 최대 6명`;
-  $('btn-add').hidden = members.length >= 6;
+  $('member-count').textContent = `${members.length}명`;
+  $('btn-add').hidden = false;
 }
 
 function renderTeam() {
@@ -1110,7 +1110,7 @@ $('members').addEventListener('click', e => {
   const b = e.target.closest('[data-del]'); if (!b) return;
   members.splice(+b.dataset.del, 1); renderMembers(); renderTeam();
 });
-$('btn-add').onclick = () => { if (members.length < 6) { members.push({ name: '', el: 0, sub: 0 }); renderMembers(); renderTeam(); } };
+$('btn-add').onclick = () => { members.push({ name: '', el: 0, sub: 0 }); renderMembers(); renderTeam(); };
 
 /* 팀 규칙 */
 let teamCtx = null;
@@ -1231,11 +1231,11 @@ async function loadTeam() {
     const res = await fetch(`${WEBHOOK_URL}?kisu=${encodeURIComponent(kisu)}&part=${encodeURIComponent(part)}&team=${encodeURIComponent(team)}`);
     const list = await res.json();
     if (!Array.isArray(list) || !list.length) { st.textContent = `${kisu}기 파트${part} ${team}팀 결과가 아직 없어요. 팀원들이 테스트를 마쳤는지 확인해주세요.`; return; }
-    members = list.slice(0, 6).map(r => ({ name: String(r.name), ...normalize(r) }));
+    members = list.map(r => ({ name: String(r.name), ...normalize(r) }));
     rules.team = team; $('r-team').value = team;
     $('team-sample-note').hidden = true;
     renderMembers(); renderTeam();
-    st.textContent = `${kisu}기 파트${part} ${team}팀 ${list.length}명의 결과를 불러왔어요.` + (list.length > 6 ? ' 최대 6명까지만 표시돼요.' : '');
+    st.textContent = `${kisu}기 파트${part} ${team}팀 ${list.length}명의 결과를 불러왔어요.`;
   } catch (err) {
     st.textContent = '불러오지 못했어요. 잠시 후 다시 시도하거나 팀원 정보를 직접 입력해주세요.';
   }
