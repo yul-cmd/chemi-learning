@@ -108,9 +108,10 @@
     border: 1.5px solid var(--line); background: var(--surface2); color: var(--fg); font-family: inherit;
   }
   .field textarea { min-height: 150px; resize: vertical; line-height: 1.6; }
-  .carry-list { list-style: none; padding: 0; margin: 12px 0 0; display: grid; gap: 6px; font-size: 14px; }
-  .carry-list li { display: flex; gap: 8px; align-items: center; }
-  .carry-list .miss { color: var(--fire); }
+  .m-namebox { display: grid; gap: 3px; min-width: 0; }
+  .m-src { font-size: 12px; color: var(--fg-sub); }
+  .m-src.ok { color: var(--accent); }
+  .m-src.miss { color: var(--fire); }
   .err { color: var(--fire); font-size: 13px; margin: -6px 0 12px; }
 
   /* QUIZ */
@@ -365,8 +366,7 @@
       <p class="err" id="err" hidden>기수, 파트, 팀, 이름을 모두 입력해주세요.</p>
       <div class="stack">
         <button class="btn" id="btn-start">내 케미 캐릭터 찾기</button>
-        <button class="btn ghost" id="btn-team-open">바로 팀 궁합 보기</button>
-        <button class="btn ghost" id="btn-carry-open">🔁 지난 파트 결과로 그라운드 룰만 세팅하기</button>
+        <button class="btn ghost" id="btn-team-open">바로 팀 그라운드 룰 세팅하기</button>
       </div>
       <p class="notice">· 테스트는 <b>파트별로 한 번만</b> 참여할 수 있어요.<br>· 이미 응답한 파트를 다시 열면 이전 결과를 보여드려요.<br>· 재테스트는 원칙적으로 어렵지만, 잘못 응답한 경우에는 <b>허율 담당자</b>에게 문의해 주세요!<br>· 결과(이름, 캐릭터)는 팀 활동을 위해 저장되고, 같은 팀원이 함께 볼 수 있어요.<br>· 같은 기수에 이름이 같은 분이 있다면 이름 뒤에 A, B를 붙여주세요.</p>
     </div>
@@ -451,45 +451,11 @@
     </div>
   </section>
 
-  <!-- 지난 파트 결과로 그라운드 룰 -->
-  <section id="sc-carry" class="screen" hidden>
-    <span class="eyebrow">Quick Start</span>
-    <h1 style="font-size:30px;margin-top:8px">지난 결과로 바로 시작하기</h1>
-    <p class="intro-sub" style="margin-top:8px">이전 파트에서 케미 러닝을 했다면 테스트를 다시 하지 않아도 돼요.<br>팀원 이름만 넣으면 지난 결과를 불러와 바로 팀 궁합과 그라운드 룰로 넘어가요.</p>
-    <div class="card" style="margin-top:16px">
-      <div class="fields three">
-        <div class="field">
-          <label for="c-kisu">기수</label>
-          <input id="c-kisu" type="number" min="1" max="99" placeholder="예) 15" inputmode="numeric">
-        </div>
-        <div class="field">
-          <label for="c-part">이번 파트</label>
-          <select id="c-part"><option value="">선택</option><option value="2">파트2</option><option value="3">파트3</option><option value="4">파트4</option></select>
-        </div>
-        <div class="field">
-          <label for="c-team">팀</label>
-          <input id="c-team" type="number" min="1" max="20" placeholder="예) 3" inputmode="numeric">
-        </div>
-        <div class="field full">
-          <label for="c-names">팀원 이름 (한 줄에 한 명)</label>
-          <textarea id="c-names" placeholder="홍길동&#10;김코드&#10;이모델"></textarea>
-        </div>
-      </div>
-      <p class="err" id="c-err" hidden>기수, 이번 파트, 팀, 팀원 이름을 모두 입력해주세요.</p>
-      <div class="stack">
-        <button class="btn" id="btn-carry">지난 결과 불러와서 그라운드 룰 세팅하기</button>
-        <button class="link-btn" id="btn-carry-back">← 처음으로</button>
-      </div>
-      <ul class="carry-list" id="carry-list"></ul>
-      <p class="notice">· 이전 파트 중 <b>가장 최근 결과</b>를 불러와요.<br>· 지난 결과가 없는 팀원은 먼저 테스트를 하거나, 다음 화면에서 캐릭터를 직접 골라 주세요.<br>· 불러온 결과는 이번 파트 기록으로도 저장돼요.</p>
-    </div>
-  </section>
-
   <!-- TEAM 궁합 -->
   <section id="sc-team" class="screen" hidden>
     <span class="eyebrow">Team 궁합</span>
-    <h1 style="font-size:30px;margin-top:8px">우리 팀 궁합 보기</h1>
-    <p class="intro-sub" style="margin-top:8px">기수, 파트, 팀 번호를 넣으면 이번 파트 팀원들의 결과를 바로 불러와요.</p>
+    <h1 style="font-size:30px;margin-top:8px">우리 팀 궁합 &amp; 그라운드 룰</h1>
+    <p class="intro-sub" style="margin-top:8px">팀원 이름만 넣으면 지난 케미 러닝 결과를 바로 불러와요.<br>테스트를 다시 하지 않아도 팀 궁합을 보고 그라운드 룰을 세팅할 수 있어요.</p>
     <p class="note" id="team-sample-note" style="margin-top:6px" hidden>지금은 예시 팀이 채워져 있어요. 우리 팀 정보로 바꿔보세요.</p>
     <div class="card load-box" id="load-box">
       <p class="sec-label">우리 팀 결과 불러오기</p>
@@ -499,10 +465,10 @@
         <input id="load-team" type="number" placeholder="팀" aria-label="팀" inputmode="numeric">
         <button class="btn" id="btn-load">불러오기</button>
       </div>
-      <p class="note" id="load-status">팀원들이 이번 파트 테스트를 마쳤다면 기수, 파트, 팀을 넣고 불러오세요.</p>
+      <p class="note" id="load-status">기수·파트·팀을 넣고 아래에 팀원 이름을 입력하면, 이름 옆에 지난 결과가 떠요. 이번 파트에 팀원 모두 테스트를 했다면 [불러오기]로 한 번에 가져올 수도 있어요.</p>
     </div>
-    <details class="more" style="margin-top:14px">
-      <summary>팀원 정보 직접 입력·수정하기</summary>
+    <details class="more" id="members-box" style="margin-top:14px" open>
+      <summary>👥 팀원 이름 입력하기 (지난 결과 자동 불러오기)</summary>
       <div class="members" id="members"></div>
       <div class="add-row">
         <button class="link-btn" id="btn-add">+ 팀원 추가</button>
@@ -1060,6 +1026,8 @@ function openTeam() {
     } else if (!WEBHOOK_URL) {
       members = SAMPLE.map(m => ({ ...m }));
       $('team-sample-note').hidden = false;
+    } else {
+      members = [0, 1, 2, 3].map(() => ({ name: '', el: 0, sub: 0, pending: true }));
     }
   }
   renderMembers(); renderTeam(); show('sc-team');
@@ -1070,8 +1038,9 @@ function opt(list, val, fmt) { return list.map((x, k) => `<option value="${k}"${
 function renderMembers() {
   $('members').innerHTML = members.map((m, i) =>
     `<div class="member" data-i="${i}">` +
-    `<span class="seal sm e${m.el}">${EL[m.el].ch}</span>` +
-    `<input id="m-name-${i}" data-f="name" placeholder="팀원 ${i + 1} 이름" value="${esc(m.name)}" aria-label="팀원 ${i + 1} 이름">` +
+    `<span class="seal sm e${m.el}">${m.pending ? '?' : EL[m.el].ch}</span>` +
+    `<div class="m-namebox"><input id="m-name-${i}" data-f="name" placeholder="팀원 ${i + 1} 이름" value="${esc(m.name)}" aria-label="팀원 ${i + 1} 이름">` +
+    `<small class="m-src${m.srcCls ? ' ' + m.srcCls : ''}" id="m-src-${i}">${esc(m.src || '')}</small></div>` +
     `<select id="m-el-${i}" class="sel-e" data-f="el" aria-label="팀원 ${i + 1} 캐릭터">${opt(EL, m.el, e => `${e.ch} ${e.short}`)}</select>` +
     `<button class="del" data-del="${i}" aria-label="팀원 ${i + 1} 삭제">×</button>` +
     `</div>`).join('');
@@ -1081,9 +1050,9 @@ function renderMembers() {
 
 function renderTeam() {
   const out = $('team-out');
-  const ms = members.map((m, i) => ({ ...m, name: m.name.trim() || `팀원 ${i + 1}` }));
+  const ms = members.filter(m => m.name.trim() && !m.pending).map(m => ({ ...m, name: m.name.trim() }));
   if (ms.length < 2) {
-    out.innerHTML = '<p class="note">팀원이 2명 이상 모이면 궁합이 나와요. 위에서 기수와 팀을 넣고 불러오세요.</p>';
+    out.innerHTML = '<p class="note">팀원 이름을 2명 이상 입력하면 궁합이 나와요.</p>';
     teamCtx = null; syncRules(); return;
   }
   const counts = [0, 0, 0, 0, 0]; ms.forEach(m => counts[m.el]++);
@@ -1142,14 +1111,38 @@ $('members').addEventListener('input', e => {
   const i = +row.dataset.i, f = e.target.dataset.f;
   if (f === 'name') members[i].name = e.target.value;
   else members[i][f] = +e.target.value;
-  if (f === 'el') { members[i].sub = members[i].el; const s = row.querySelector('.seal'); s.className = `seal sm e${members[i].el}`; s.textContent = EL[members[i].el].ch; }
+  if (f === 'el') { members[i].sub = members[i].el; members[i].pending = false; const s = row.querySelector('.seal'); s.className = `seal sm e${members[i].el}`; s.textContent = EL[members[i].el].ch; }
   renderTeam();
 });
 $('members').addEventListener('click', e => {
   const b = e.target.closest('[data-del]'); if (!b) return;
   members.splice(+b.dataset.del, 1); renderMembers(); renderTeam();
 });
-$('btn-add').onclick = () => { members.push({ name: '', el: 0, sub: 0 }); renderMembers(); renderTeam(); };
+$('btn-add').onclick = () => { members.push({ name: '', el: 0, sub: 0, pending: !!WEBHOOK_URL }); renderMembers(); renderTeam(); };
+// 이름을 입력하면 지난 케미 러닝 결과를 불러와 옆에 표시
+$('members').addEventListener('change', async e => {
+  if (e.target.dataset.f !== 'name' || !WEBHOOK_URL) return;
+  const i = +e.target.closest('.member').dataset.i, m = members[i], name = m.name.trim();
+  const setSrc = (t, cls) => { m.src = t; m.srcCls = cls; const el = $(`m-src-${i}`); if (el) { el.textContent = t; el.className = 'm-src ' + cls; } };
+  if (!name) { setSrc('', ''); return; }
+  const kisu = $('load-kisu').value.trim() || who.kisu, part = $('load-part').value || who.part || 4, team = $('load-team').value.trim() || who.team;
+  if (!kisu) { setSrc('위에 기수를 먼저 입력해 주세요', 'miss'); return; }
+  setSrc('지난 결과 찾는 중...', '');
+  const f = await findLatest(kisu, part, name);
+  if (members[i] !== m || m.name.trim() !== name) return;
+  if (!f) { setSrc('지난 결과가 없어요 · 오른쪽에서 캐릭터를 골라 주세요', 'miss'); renderTeam(); return; }
+  Object.assign(m, { el: f.el, sub: f.sub, pending: false });
+  setSrc(`${EL[f.el].ch} ${EL[f.el].name} · 파트${f.part} 결과`, 'ok');
+  const row = document.querySelector(`.member[data-i="${i}"]`);
+  if (row) { const sl = row.querySelector('.seal'); sl.className = `seal sm e${f.el}`; sl.textContent = EL[f.el].ch; $(`m-el-${i}`).value = f.el; }
+  renderTeam();
+  // 이번 파트 기록으로 저장 (같은 파트에 이미 있으면 시트에서 중복 저장하지 않음)
+  if ($('load-part').value && team && f.part !== +$('load-part').value) postData({
+    action: 'save', kisu, part: $('load-part').value, team, name, nameKey: nameKey(name),
+    element: `${EL[f.el].ch} ${EL[f.el].name}`, subName: `${EL[f.sub].ch} ${EL[f.sub].name}`, el: f.el, sub: f.sub,
+    dist: JSON.stringify(f.dist), answers: []
+  }, false);
+});
 
 /* 팀 규칙 */
 let teamCtx = null;
@@ -1166,7 +1159,7 @@ function syncRules() {
   if (teamCtx && !nameDirty) { rules.name = teamCtx.type; $('r-name').value = rules.name; }
   roles.length = members.length;
   if (activeRole >= members.length) activeRole = 0;
-  $('roles').innerHTML = members.map((m, i) =>
+  $('roles').innerHTML = members.map((m, i) => !m.name.trim() ? '' :
     `<div class="role"><span>${esc(m.name.trim() || `팀원 ${i + 1}`)}</span>` +
     `<input id="r-role-${i}" data-role="${i}" class="${i === activeRole ? 'active' : ''}" placeholder="역할 입력" value="${esc(roles[i] || '')}" aria-label="${esc(m.name.trim() || `팀원 ${i + 1}`)} 역할"></div>`).join('');
   updateRoleHint();
@@ -1188,7 +1181,7 @@ function rulesText() {
   const head = `[${pt ? '파트' + pt + ' ' : ''}${rules.team || 'N'}팀] 우리 팀 그라운드 룰` +
     (rules.name.trim() ? `\n💞 우리 팀 궁합 : ${rules.name.trim()}` + (teamCtx ? ` (${teamCtx.score}점 · ${teamCtx.grade})` : '') : '');
   const v = x => x.trim() || '-';
-  const roleLines = members.map((m, i) => `  - ${m.name.trim() || `팀원 ${i + 1}`} : ${(roles[i] || '').trim() || '-'}`).join('\n');
+  const roleLines = members.map((m, i) => !m.name.trim() ? null : `  - ${m.name.trim()} : ${(roles[i] || '').trim() || '-'}`).filter(Boolean).join('\n');
   const core = rules.core.trim() ? '\n' + rules.core.trim().split('\n').map(l => '  - ' + l).join('\n') : ' -';
   return `${head}
 🎯 목표 : ${v(rules.goal)}
@@ -1247,7 +1240,7 @@ $('btn-rules-copy').onclick = () => {
   const missing = [];
   REQUIRED.forEach(([k, label]) => { if (!rules[k].trim()) { missing.push(label); $(`r-${k}`).classList.add('missing'); } });
   members.forEach((m, i) => {
-    if (!(roles[i] || '').trim()) { missing.push(`역할 분담(${m.name.trim() || `팀원 ${i + 1}`})`); $(`r-role-${i}`).classList.add('missing'); }
+    if (m.name.trim() && !(roles[i] || '').trim()) { missing.push(`역할 분담(${m.name.trim() || `팀원 ${i + 1}`})`); $(`r-role-${i}`).classList.add('missing'); }
   });
   if (missing.length) {
     const err = $('rules-err');
@@ -1269,7 +1262,7 @@ async function loadTeam() {
   try {
     const res = await fetch(`${WEBHOOK_URL}?kisu=${encodeURIComponent(kisu)}&part=${encodeURIComponent(part)}&team=${encodeURIComponent(team)}`);
     const list = await res.json();
-    if (!Array.isArray(list) || !list.length) { st.textContent = `${kisu}기 파트${part} ${team}팀 결과가 아직 없어요. 팀원들이 테스트를 마쳤는지 확인해주세요.`; return; }
+    if (!Array.isArray(list) || !list.length) { st.textContent = `${kisu}기 파트${part} ${team}팀은 이번 파트 결과가 아직 없어요. 아래에 팀원 이름을 입력하면 지난 결과를 불러와요.`; return; }
     members = list.map(r => ({ name: String(r.name), ...normalize(r) }));
     rules.team = team; $('r-team').value = team;
     $('team-sample-note').hidden = true;
@@ -1305,47 +1298,6 @@ async function findLatest(kisu, part, name) {
   }
   return null;
 }
-$('btn-carry-open').onclick = () => {
-  if (!$('c-kisu').value) $('c-kisu').value = $('inp-kisu').value.trim();
-  if (!$('c-part').value && +$('inp-part').value >= 2) $('c-part').value = $('inp-part').value;
-  if (!$('c-team').value) $('c-team').value = $('inp-team').value.trim();
-  $('carry-list').innerHTML = '';
-  show('sc-carry');
-};
-$('btn-carry-back').onclick = () => show('sc-intro');
-$('btn-carry').onclick = async () => {
-  const kisu = $('c-kisu').value.trim(), part = $('c-part').value, team = $('c-team').value.trim();
-  const names = [...new Set($('c-names').value.split(/[\n,]/).map(x => x.trim()).filter(Boolean))];
-  if (!kisu || !part || !team || !names.length) { $('c-err').hidden = false; return; }
-  $('c-err').hidden = true;
-  const btn = $('btn-carry'), list = $('carry-list');
-  if (!WEBHOOK_URL) { list.innerHTML = '<li class="miss">미리보기에서는 불러올 수 없어요. 배포된 사이트에서 이용해 주세요.</li>'; return; }
-  btn.disabled = true; btn.textContent = '지난 결과 불러오는 중...';
-  const found = await Promise.all(names.map(n => findLatest(kisu, part, n)));
-  btn.disabled = false; btn.textContent = '지난 결과 불러와서 그라운드 룰 세팅하기';
-  list.innerHTML = names.map((n, i) => found[i]
-    ? `<li><span class="seal sm e${found[i].el}">${EL[found[i].el].ch}</span>${esc(n)} · 파트${found[i].part} 결과 ${EL[found[i].el].ch} ${EL[found[i].el].short}</li>`
-    : `<li class="miss">⚠️ ${esc(n)} · 지난 결과가 없어요 (다음 화면에서 캐릭터를 골라 주세요)</li>`).join('');
-  // 이번 파트 기록으로 저장 (이미 있으면 시트에서 중복 저장하지 않음)
-  names.forEach((n, i) => {
-    const f = found[i];
-    if (!f || f.part === +part) return;
-    postData({
-      action: 'save', kisu, part, team, name: n, nameKey: nameKey(n),
-      element: `${EL[f.el].ch} ${EL[f.el].name}`, subName: `${EL[f.sub].ch} ${EL[f.sub].name}`, el: f.el, sub: f.sub,
-      dist: JSON.stringify(f.dist), answers: []
-    }, false);
-  });
-  who = { kisu, part, team, name: who.name || '' };
-  $('load-kisu').value = kisu; $('load-part').value = part; $('load-team').value = team;
-  members = names.map((n, i) => found[i] ? { name: n, el: found[i].el, sub: found[i].sub } : { name: n, el: 0, sub: 0 });
-  rules.team = team; $('r-team').value = team;
-  $('team-sample-note').hidden = true;
-  const miss = names.filter((n, i) => !found[i]);
-  $('load-status').textContent = `${kisu}기 파트${part} ${team}팀 · 지난 결과 ${names.length - miss.length}명 불러옴` +
-    (miss.length ? ` · 결과 없음: ${miss.join(', ')} (아래 ‘팀원 정보 직접 입력·수정하기’에서 캐릭터를 골라 주세요)` : '');
-  renderMembers(); renderTeam(); show('sc-team');
-  setTimeout(() => $('rules').scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
-};
+
 $('btn-team-back').onclick = () => show('sc-intro');
 </script>
